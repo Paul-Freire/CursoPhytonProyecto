@@ -22,7 +22,7 @@ COLORES = {
 # Configuración de página
 st.set_page_config(page_title="Trayectorias de Proyectil: Análisis Numérico", layout="wide", page_icon="🚀")
 
-# Layout de logos (izquierda, centro, derecha)
+# Layout de logos (izquierda y derecha)
 col1, col2 = st.columns([1, 1])
 
 with col1:
@@ -34,12 +34,6 @@ with col1:
         st.warning("⚠️ No se encontró 'logo_izq.png' ni 'imagen1.png' para la izquierda.")
 
 with col2:
-    if os.path.exists("imagen1.png"):
-        st.image("imagen1.png", width=250, use_container_width=False, caption="")
-    else:
-        st.warning("⚠️ No se encontró 'imagen1.png' en el directorio del proyecto.")
-
-with col3:
     if os.path.exists("logo_der.png"):
         st.image("logo_der.png", width=250, use_container_width=False, caption="")
     elif os.path.exists("imagen1.png"):
@@ -295,4 +289,3 @@ with st.expander("Cómo Replicar y Publicar"):
     4. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
     5. Enlace ejemplo: [Tu-app.streamlit.app].
     """)
-
