@@ -20,23 +20,18 @@ COLORES = {
 }
 
 # Configuración de página
-st.set_page_config(page_title="Dashboard Proyectil con Fricción", layout="wide", page_icon="🚀")
+st.set_page_config(page_title="Trayectorias de Proyectil: Análisis Numérico", layout="wide", page_icon="🚀")
 
 # Logo centrado y más grande
 if os.path.exists("imagen1.png"):
-    st.markdown(
-        """
-        <div style="display: flex; justify-content: center;">
-            <img src="imagen1.png" width="400">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.image("imagen1.png", width=400, use_column_width="auto", caption="")
+else:
+    st.warning("⚠️ No se encontró 'imagen1.png' en el directorio del proyecto. Asegúrate de que el archivo esté presente.")
 
-# Título centrado con emojis
+# Título centrado y más llamativo
 st.markdown(
     """
-    <h1 style="text-align: center;">🚀 Dashboard: Movimiento de Proyectil con Fricción 🎯</h1>
+    <h1 style="text-align: center;">🚀 Trayectorias de Proyectil: Análisis Numérico 🎯</h1>
     """,
     unsafe_allow_html=True
 )
