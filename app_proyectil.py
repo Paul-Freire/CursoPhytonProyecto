@@ -287,8 +287,8 @@ with st.expander("Cómo Replicar y Publicar"):
     2. Asegúrate de tener `imagen1.png` (y opcionalmente `logo_izq.png`, `logo_der.png`) en el directorio.
     3. Ejecuta local: `streamlit run app_proyectil.py`.
     4. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
-    5. Enlace ejemplo: [Tu-app.streamlit.app].
     """)
+
 
 
 
