@@ -22,13 +22,13 @@ COLORES = {
 # Configuración de página
 st.set_page_config(page_title="Trayectorias de Proyectil: Análisis Numérico", layout="wide", page_icon="🚀")
 
-# Logo centrado y más grande
+# Logo centrado y más pequeño
 if os.path.exists("imagen1.png"):
-    st.image("imagen1.png", width=400, use_column_width="auto", caption="")
+    st.image("imagen1.png", width=250, use_container_width=False, caption="")
 else:
     st.warning("⚠️ No se encontró 'imagen1.png' en el directorio del proyecto. Asegúrate de que el archivo esté presente.")
 
-# Título centrado y más llamativo
+# Título centrado y llamativo
 st.markdown(
     """
     <h1 style="text-align: center;">🚀 Trayectorias de Proyectil: Análisis Numérico 🎯</h1>
