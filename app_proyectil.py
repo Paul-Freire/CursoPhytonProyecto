@@ -13,7 +13,7 @@ H_DEFAULT = 0.01  # Paso por defecto (s)
 K_DEFAULT = 0.01  # Coef. fricción por defecto (s/m)
 V0X_DEFAULT, V0Y_DEFAULT = 50.0, 30.0  # Velocidades iniciales (m/s)
 COLORES = {
-    'Analítica': '#1E88E5',  # Azul vibrante (visible en claro/oscuro)
+    'Analítica': '#1E88E5',  # Azul vibrante
     'Euler': '#D81B60',      # Rosa fuerte
     'RK4': '#43A047',       # Verde oscuro
     'Experimental': '#FFB300'  # Amarillo ámbar
@@ -22,10 +22,24 @@ COLORES = {
 # Configuración de página
 st.set_page_config(page_title="Dashboard Proyectil con Fricción", layout="wide", page_icon="🚀")
 
-# Logo encima del título
+# Logo centrado y más grande
 if os.path.exists("imagen1.png"):
-    st.image("imagen1.png", width=200, caption="")  # Ajusta width según el tamaño de tu logo
-st.title("Dashboard: Movimiento de Proyectil con Fricción")
+    st.markdown(
+        """
+        <div style="display: flex; justify-content: center;">
+            <img src="imagen1.png" width="400">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Título centrado con emojis
+st.markdown(
+    """
+    <h1 style="text-align: center;">🚀 Dashboard: Movimiento de Proyectil con Fricción 🎯</h1>
+    """,
+    unsafe_allow_html=True
+)
 st.divider()
 
 # Función para derivadas (sistema EDO)
@@ -157,7 +171,7 @@ st.divider()
 col_g1, col_g2 = st.columns(2)
 with col_g1:
     st.subheader("1. Trayectorias (x vs y)")
-    modo_tray = st.radio("Modo de visualización", ["Absoluto", "Normalizado"], horizontal=True)
+    modo_tray = st.radio("Modo de visualización", ["Absoluto", "Normalizado"], horizontal=True, key="tray")
     fig_tray = go.Figure()
     x_ideal, y_ideal = df_ideal_filtrado['x'], df_ideal_filtrado['y']
     x_num, y_num = df_filtrado['x'], df_filtrado['y']
@@ -172,30 +186,46 @@ with col_g1:
     fig_tray.add_trace(go.Scatter(x=x_ideal, y=y_ideal, mode='lines', name='Analítica (sin fricción)', line=dict(dash='dash', color=COLORES['Analítica'])))
     fig_tray.add_trace(go.Scatter(x=x_num, y=y_num, mode='lines', name=f'{metodo} (con fricción)', line=dict(color=COLORES[metodo])))
     if df_exp is not None:
-        fig_tray.add_trace(go.Scatter(x=df_exp['x'], y=df_exp['y'], mode='markers', name='Experimental', marker=dict(size=5, color=COLORES['Experimental'])))
+        x_exp, y_exp = df_exp['x'], df_exp['y']
+        if modo_tray == "Normalizado":
+            x_exp, y_exp = x_exp/x_max, y_exp/y_max
+        fig_tray.add_trace(go.Scatter(x=x_exp, y=y_exp, mode='markers', name='Experimental', marker=dict(size=5, color=COLORES['Experimental'])))
     fig_tray.update_layout(
         title="Trayectorias Comparadas",
         xaxis_title=x_label,
         yaxis_title=y_label,
-        plot_bgcolor='rgba(0,0,0,0)',  # Fondo transparente
-        paper_bgcolor='rgba(0,0,0,0)',  # Fondo transparente
-        font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000')  # Texto adaptable
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000'),
+        height=400,
+        margin=dict(l=50, r=50, t=50, b=50)
     )
     st.plotly_chart(fig_tray, use_container_width=True)
 
 with col_g2:
     st.subheader("2. Error Acumulado vs. Tiempo")
+    modo_error = st.radio("Modo de visualización", ["Absoluto", "Normalizado"], horizontal=True, key="error")
     if len(df_ideal_filtrado) > 0:
         error_t = np.abs(Y[mask_t, 1] - interp1d(df_ideal_filtrado['tiempo'], df_ideal_filtrado['y'], kind='linear', fill_value='extrapolate')(t[mask_t]))
+        if modo_error == "Normalizado":
+            error_max_val = error_t.max() if error_t.max() > 0 else 1.0
+            error_t = error_t / error_max_val
+            y_label = "Error / Error_max"
+        else:
+            y_label = "Error absoluto en y (m)"
         fig_error = px.line(x=t[mask_t], y=error_t, title="Error en y vs Tiempo")
         fig_error.update_layout(
             xaxis_title="Tiempo (s)",
-            yaxis_title="Error absoluto en y (m)",
+            yaxis_title=y_label,
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
-            font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000')
+            font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000'),
+            height=400,
+            margin=dict(l=50, r=50, t=50, b=50)
         )
         st.plotly_chart(fig_error, use_container_width=True)
+    else:
+        st.info("No hay datos para el gráfico de error con los filtros seleccionados.")
 
 st.subheader("3. Barras Comparativas: Distancia por Método y Fricción")
 Y_euler = euler(Y0, t, h, k)
@@ -218,7 +248,9 @@ fig_barras = px.bar(
 fig_barras.update_layout(
     plot_bgcolor='rgba(0,0,0,0)',
     paper_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000')
+    font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000'),
+    height=400,
+    margin=dict(l=50, r=50, t=50, b=50)
 )
 st.plotly_chart(fig_barras, use_container_width=True)
 st.divider()
@@ -244,7 +276,8 @@ st.write("""
 with st.expander("Cómo Replicar y Publicar"):
     st.markdown("""
     1. Instala: `pip install -r requirements.txt`.
-    2. Ejecuta local: `streamlit run app_proyectil.py`.
-    3. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
-    4. Enlace ejemplo: [Tu-app.streamlit.app].
+    2. Asegúrate de tener `imagen1.png` en el directorio.
+    3. Ejecuta local: `streamlit run app_proyectil.py`.
+    4. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
+    5. Enlace ejemplo: [Tu-app.streamlit.app].
     """)
