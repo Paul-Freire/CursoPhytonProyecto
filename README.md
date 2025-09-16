@@ -18,4 +18,4 @@ Dashboard interactivo para comparar métodos numéricos (Euler y RK4) en la reso
 - RK4 reduce error en ~90% vs Euler.
 - Fricción acorta trayectoria ~20%.
 
-Enlace deployado: .
+Enlace deployado: https://cursophytonproyecto-d5curzvwcbqq4rc3ftv79a.streamlit.app/#2-error-acumulado-vs-tiempo.
