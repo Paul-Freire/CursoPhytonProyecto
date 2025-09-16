@@ -23,7 +23,7 @@ COLORES = {
 st.set_page_config(page_title="Trayectorias de Proyectil: Análisis Numérico", layout="wide", page_icon="🚀")
 
 # Layout de logos (izquierda y derecha)
-col1, col2 = st.columns([1, 3])
+col1, col2 = st.columns([1, 0.5])
 
 with col1:
     if os.path.exists("logo_izq.png"):
@@ -289,4 +289,5 @@ with st.expander("Cómo Replicar y Publicar"):
     4. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
     5. Enlace ejemplo: [Tu-app.streamlit.app].
     """)
+
 
