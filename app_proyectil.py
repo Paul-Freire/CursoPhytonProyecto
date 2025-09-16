@@ -1,9 +1,34 @@
 # -*- coding: utf-8 -*-
 """
 Autor: Pamela Gomez y Paul Freire
-Este archivo contiene las soluciones integradas para todos los Mini-Retos (MR-1 a MR-11) y 
-Retos Integradores (RI-1 a RI-4).
-Requisitos: pip install pandas numpy matplotlib openpyxl
+Este archivo contiene las soluciones integradas para el proyecto de Trayectorias de Proyectil, incluyendo análisis numérico (Euler y RK4), comparación con solución analítica, y funcionalidades de dashboard interactivo.
+Descripción:
+- Este dashboard interactivo implementa métodos numéricos (Euler y RK4) para resolver ecuaciones diferenciales ordinarias (EDOs) que modelan el movimiento de un proyectil bajo gravedad y resistencia al aire (fricción proporcional a v²).
+- Incluye: Comparación con la solución analítica exacta (sin fricción), filtros interactivos para parámetros (velocidad inicial, fricción, paso de tiempo), KPIs clave (distancia recorrida, tiempo de vuelo, error máximo, energía cinética), visualizaciones (trayectorias comparadas, error acumulado vs. tiempo, barras de distancias), soporte para datos experimentales vía CSV y exportación de resultados.
+- Optimizado para modo claro/oscuro y compatible con Streamlit Cloud.
+Contexto Académico:
+- Aplicación de Fase 1: Preparación y Fundamentos (variables, bucles, funciones).
+- Fase 2: Manejo de Datos (NumPy para vectorización, SymPy para simbólico - adaptado analíticamente).
+- Fase 3: Visualización (Matplotlib/Plotly para gráficos interactivos).
+- Tema: Métodos Numéricos para EDOs (Movimiento de Proyectil con Fricción).
+Parámetros Iniciales (Condiciones del Problema):
+- Velocidad inicial: v0x = 50 m/s, v0y = 30 m/s
+- Coeficiente de fricción: k = 0.01 s/m
+- Paso de tiempo: h = 0.01 s
+- Tiempo final: t_final = 10 s
+- Gravedad: g = 9.81 m/s²
+Hallazgos Principales:
+- RK4 ofrece precisión superior (error O(h^4)) vs. Euler (O(h)), reduciendo desviaciones ~90%.
+- Fricción reduce distancia recorrida ~15-25% y curva la trayectoria hacia abajo.
+- Recomendación: Usar RK4 para simulaciones balísticas precisas; reducir h para mayor exactitud.
+Instrucciones de Uso:
+1. Instalar dependencias: pip install -r requirements.txt
+2. Ejecutar localmente: streamlit run app_proyectil.py
+3. Publicar: Subir a GitHub y deployar en Streamlit Cloud[](https://share.streamlit.io).
+4. Archivos requeridos: imagen1.png (logo), logo_izq.png y logo_der.png (opcionales).
+Requisitos: pip install pandas numpy matplotlib openpyxl streamlit plotly scipy
+Fecha: 16 de septiembre de 2025, 04:11 PM -05
+Versión: 1.0
 """
 
 import streamlit as st
@@ -296,6 +321,7 @@ with st.expander("Cómo Replicar y Publicar"):
     3. Ejecuta local: `streamlit run app_proyectil.py`.
     4. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
     """)
+
 
 
 
