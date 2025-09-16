@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Autor: Pamela Gomez y Paul Freire
+Este archivo contiene las soluciones integradas para todos los Mini-Retos (MR-1 a MR-11) y 
+Retos Integradores (RI-1 a RI-4).
+Requisitos: pip install pandas numpy matplotlib openpyxl
+"""
+
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -288,6 +296,7 @@ with st.expander("Cómo Replicar y Publicar"):
     3. Ejecuta local: `streamlit run app_proyectil.py`.
     4. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
     """)
+
 
 
 
