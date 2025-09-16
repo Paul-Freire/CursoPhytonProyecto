@@ -22,11 +22,30 @@ COLORES = {
 # Configuración de página
 st.set_page_config(page_title="Trayectorias de Proyectil: Análisis Numérico", layout="wide", page_icon="🚀")
 
-# Logo centrado y más pequeño
-if os.path.exists("imagen1.png"):
-    st.image("imagen1.png", width=250, use_container_width=False, caption="")
-else:
-    st.warning("⚠️ No se encontró 'imagen1.png' en el directorio del proyecto. Asegúrate de que el archivo esté presente.")
+# Layout de logos (izquierda, centro, derecha)
+col1, col2, col3 = st.columns([1, 2, 1])
+
+with col1:
+    if os.path.exists("logo_izq.png"):
+        st.image("logo_izq.png", width=250, use_container_width=False, caption="")
+    elif os.path.exists("imagen1.png"):
+        st.image("imagen1.png", width=250, use_container_width=False, caption="")
+    else:
+        st.warning("⚠️ No se encontró 'logo_izq.png' ni 'imagen1.png' para la izquierda.")
+
+with col2:
+    if os.path.exists("imagen1.png"):
+        st.image("imagen1.png", width=250, use_container_width=False, caption="")
+    else:
+        st.warning("⚠️ No se encontró 'imagen1.png' en el directorio del proyecto.")
+
+with col3:
+    if os.path.exists("logo_der.png"):
+        st.image("logo_der.png", width=250, use_container_width=False, caption="")
+    elif os.path.exists("imagen1.png"):
+        st.image("imagen1.png", width=250, use_container_width=False, caption="")
+    else:
+        st.warning("⚠️ No se encontró 'logo_der.png' ni 'imagen1.png' para la derecha.")
 
 # Título centrado y llamativo
 st.markdown(
@@ -271,7 +290,7 @@ st.write("""
 with st.expander("Cómo Replicar y Publicar"):
     st.markdown("""
     1. Instala: `pip install -r requirements.txt`.
-    2. Asegúrate de tener `imagen1.png` en el directorio.
+    2. Asegúrate de tener `imagen1.png` (y opcionalmente `logo_izq.png`, `logo_der.png`) en el directorio.
     3. Ejecuta local: `streamlit run app_proyectil.py`.
     4. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
     5. Enlace ejemplo: [Tu-app.streamlit.app].
