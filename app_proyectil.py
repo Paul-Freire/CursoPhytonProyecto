@@ -13,22 +13,19 @@ H_DEFAULT = 0.01  # Paso por defecto (s)
 K_DEFAULT = 0.01  # Coef. fricción por defecto (s/m)
 V0X_DEFAULT, V0Y_DEFAULT = 50.0, 30.0  # Velocidades iniciales (m/s)
 COLORES = {
-    'Analítica': '#000000',  # Negro
-    'Euler': '#FF5733',      # Rojo
-    'RK4': '#2ECC71'         # Verde
+    'Analítica': '#1E88E5',  # Azul vibrante (visible en claro/oscuro)
+    'Euler': '#D81B60',      # Rosa fuerte
+    'RK4': '#43A047',       # Verde oscuro
+    'Experimental': '#FFB300'  # Amarillo ámbar
 }
 
 # Configuración de página
-st.set_page_config(page_title="Dashboard Proyectil con Fricción", layout="wide")
-c1, c2, c3 = st.columns([1, 6, 1])
-with c1:
-    if os.path.exists("logo_izq.png"):
-        st.image("logo_izq.png", use_container_width=True)
-with c2:
-    st.title("🪨 Dashboard: Movimiento de Proyectil con Fricción")
-with c3:
-    if os.path.exists("logo_der.png"):
-        st.image("logo_der.png", use_container_width=True)
+st.set_page_config(page_title="Dashboard Proyectil con Fricción", layout="wide", page_icon="🚀")
+
+# Logo encima del título
+if os.path.exists("imagen1.png"):
+    st.image("imagen1.png", width=200, caption="")  # Ajusta width según el tamaño de tu logo
+st.title("Dashboard: Movimiento de Proyectil con Fricción")
 st.divider()
 
 # Función para derivadas (sistema EDO)
@@ -175,8 +172,15 @@ with col_g1:
     fig_tray.add_trace(go.Scatter(x=x_ideal, y=y_ideal, mode='lines', name='Analítica (sin fricción)', line=dict(dash='dash', color=COLORES['Analítica'])))
     fig_tray.add_trace(go.Scatter(x=x_num, y=y_num, mode='lines', name=f'{metodo} (con fricción)', line=dict(color=COLORES[metodo])))
     if df_exp is not None:
-        fig_tray.add_trace(go.Scatter(x=df_exp['x'], y=df_exp['y'], mode='markers', name='Experimental', marker=dict(size=5)))
-    fig_tray.update_layout(title="Trayectorias Comparadas", xaxis_title=x_label, yaxis_title=y_label)
+        fig_tray.add_trace(go.Scatter(x=df_exp['x'], y=df_exp['y'], mode='markers', name='Experimental', marker=dict(size=5, color=COLORES['Experimental'])))
+    fig_tray.update_layout(
+        title="Trayectorias Comparadas",
+        xaxis_title=x_label,
+        yaxis_title=y_label,
+        plot_bgcolor='rgba(0,0,0,0)',  # Fondo transparente
+        paper_bgcolor='rgba(0,0,0,0)',  # Fondo transparente
+        font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000')  # Texto adaptable
+    )
     st.plotly_chart(fig_tray, use_container_width=True)
 
 with col_g2:
@@ -184,7 +188,13 @@ with col_g2:
     if len(df_ideal_filtrado) > 0:
         error_t = np.abs(Y[mask_t, 1] - interp1d(df_ideal_filtrado['tiempo'], df_ideal_filtrado['y'], kind='linear', fill_value='extrapolate')(t[mask_t]))
         fig_error = px.line(x=t[mask_t], y=error_t, title="Error en y vs Tiempo")
-        fig_error.update_layout(xaxis_title="Tiempo (s)", yaxis_title="Error absoluto en y (m)")
+        fig_error.update_layout(
+            xaxis_title="Tiempo (s)",
+            yaxis_title="Error absoluto en y (m)",
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000')
+        )
         st.plotly_chart(fig_error, use_container_width=True)
 
 st.subheader("3. Barras Comparativas: Distancia por Método y Fricción")
@@ -197,7 +207,19 @@ df_barras = pd.DataFrame({
     'Método': ['Euler con fricción', 'RK4 con fricción', 'Analítica sin fricción'],
     'Distancia': [dist_euler, dist_rk4, dist_sin_fric]
 })
-fig_barras = px.bar(df_barras, x='Método', y='Distancia', title="Comparación de Distancias", color='Método', color_discrete_map=COLORES)
+fig_barras = px.bar(
+    df_barras,
+    x='Método',
+    y='Distancia',
+    title="Comparación de Distancias",
+    color='Método',
+    color_discrete_map=COLORES
+)
+fig_barras.update_layout(
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
+    font=dict(color='#FFFFFF' if st.get_option('theme.backgroundColor') == '#0E1117' else '#000000')
+)
 st.plotly_chart(fig_barras, use_container_width=True)
 st.divider()
 
