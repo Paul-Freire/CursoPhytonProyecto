@@ -28,6 +28,7 @@ Instrucciones de Uso:
 4. Archivos requeridos: imagen1.png (logo), logo_izq.png y logo_der.png (opcionales).
 Requisitos: pip install pandas numpy matplotlib openpyxl streamlit plotly scipy
 Versión: 1.0 
+Enlace deployado: https://cursophytonproyecto-d5curzvwcbqq4rc3ftv79a.streamlit.app/#2-error-acumulado-vs-tiempo
 """
 
 import streamlit as st
@@ -349,3 +350,4 @@ with st.expander("Cómo Replicar y Publicar"):  # Expansor para instrucciones
     3. Ejecuta local: `streamlit run app_proyectil.py`.
     4. Publica: Sube a GitHub, ve a [share.streamlit.io](https://share.streamlit.io), conecta repo y deploya.
     """)
+
